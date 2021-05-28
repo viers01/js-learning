@@ -49,7 +49,6 @@ class ProductItem {
       `
     }
 }
-
 let list = new ProductList;
 list.render()
 list.summGoods()
