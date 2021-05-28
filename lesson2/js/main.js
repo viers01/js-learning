@@ -1,3 +1,22 @@
+class Basket {
+    constructor() {
+
+        const basket = [] //массив с товарами
+    }
+    render() { //отрисовка корзины
+
+        //думаю тут должен быть list.summGoods() 
+    }
+
+}
+class BasketProduct {
+    productAdd() { //добавление в корзину
+
+    }
+    productRemove() { //удаление из корзины
+
+    }
+}
 class ProductList {
     constructor(container = '.products') {
         this.goods = [
