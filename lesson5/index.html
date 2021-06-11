@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="cart" v-if="show">
+            <p v-if="cart.length === 0">Ваша корзина пуста</p>
+            <div class="cart-box" v-else>
+                <div class="card mb-3" style="max-width: 540px;" v-for="product of this.cart" :key="product.product_name">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="http://placehold.it/50x100" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.product_name}}</h5>
+                                <p class="card-text">{{product.quantity}} шт.</p>
+                                <p class="card-text"><small class="text-muted">Цена:{{product.price * product.quantity}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light position-relative">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Интернет-магазин</a>
+                <form action="#" class="search-form" @submit.prevent="searchArr">
+                    <input type="text" class="search-field" v-model="searchTitle">
+                    <button class="btn-search" type="submit">
+                        найти
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <button type="button" class="btn btn-primary cart-btn" @click="show = !show">Корзина</button>
+            </div>
+        </nav>
+        <div class="row gx-5">
+            <div class="card" style="width: 200px;" v-for="product of filtered" :key="product.id_product">
+                <img src="http://placehold.it/130x130" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.product_name}}</h5>
+                    <p class="card-text">Цена: {{product.price}} руб.</p>
+                    <a href="#" class="btn btn-primary" @click="addProduct(product.id_product)">Купить</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="script.js"></script>
+
+
+</body>
+</html>
