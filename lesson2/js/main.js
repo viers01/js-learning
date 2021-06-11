@@ -13,7 +13,7 @@ class ProductList {
         const summBlock = document.querySelector('.summ')
 
         for (const product of this.goods) {
-            this.summ += product.price
+            return summ += product.price
         }
 
         summBlock.innerHTML = `Итог:${this.summ}`
