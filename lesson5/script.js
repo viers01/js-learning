@@ -1,69 +1,50 @@
+
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'
 var app1 = new Vue({
     el: '#app',
     data: {
-        goods: [
-            {
-                id_product: 1,
-                product_name: "Ноутбук",
-                price: 45600,
-                quantity: 1,
-            },
-            {
-                id_product: 2,
-                product_name: "Клавиатура",
-                price: 4442,
-                quantity: 1,
-            },
-            {
-                id_product: 3,
-                product_name: "Кресло",
-                price: 2224,
-                quantity: 1,
-            },
-            {
-                id_product: 4,
-                product_name: "Телефон",
-                price: 1000,
-                quantity: 1,
-            },
-            {
-                id_product: 5,
-                product_name: "Мышка",
-                price: 1123,
-                quantity: 1,
-            }
-        ],
-        filtered:[],
+        getjson (url) {
+            return fetch(API+url).then(data => data.json()).then((data)=> this.goods = data)
+        },
+        goods: [],
+        filtered: [],
         cart:[],
         show:true,
         searchTitle:'',
-
     },
     methods:{
-        addProduct(idProduct){
-            for (let product of this.filtered) {
-                if (idProduct === product.id_product) {
-                    if (this.find(idProduct)){
-                        console.log('я нашел такой товар и увеличил кол-во')
-                        product.quantity++
-
-                    } else {
-                        console.log('я не нашел, но добавил его')
-                        this.cart.push(product)
-                    }
+        addProduct(Product){
+            let find = this.cart.find(el => el.id_product === Product.id_product);
+                if (find){
+                    console.log(find)
+                    find.quantity++
+                } else {
+                    console.log('ne nashel', Product)
+                    let newItem = Object.assign({quantity:1}, Product);
+                    this.cart.push(newItem)
                 }
-            }
         },
-        find(id){
-            return this.cart.find((product)=> product.id_product === id)
+        removeProduct(cartInItem){
+            if (cartInItem.quantity>1){
+                cartInItem.quantity--
+            } else {
+                this.cart.splice(this.cart.indexOf(cartInItem),1)
+            }
         },
         searchArr() {
             let regExp = new RegExp(this.searchTitle, 'i')
             this.filtered = this.goods.filter(product => regExp.test(product.product_name))
-
         }
     },
+    mounted(){
+        this.getjson('getBasket.json')
+            .then(data => {
+                for (let el of data.contents) {
+                    this.cart.push(el);
+                }
+            });
+    },
     created() {
-        this.searchArr()
+        this.getjson('catalogData.json').then(()=> this.searchArr())
     }
 })
