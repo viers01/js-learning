@@ -4,7 +4,7 @@ var app1 = new Vue({
     el: '#app',
     data: {
         getjson (url) {
-            return fetch(API+url).then(data => data.json()).then((data)=> this.goods = data)
+            return fetch(API+url).then(data => data.json())
         },
         goods: [],
         filtered: [],
@@ -16,10 +16,8 @@ var app1 = new Vue({
         addProduct(Product){
             let find = this.cart.find(el => el.id_product === Product.id_product);
                 if (find){
-                    console.log(find)
                     find.quantity++
                 } else {
-                    console.log('ne nashel', Product)
                     let newItem = Object.assign({quantity:1}, Product);
                     this.cart.push(newItem)
                 }
@@ -33,7 +31,7 @@ var app1 = new Vue({
         },
         searchArr() {
             let regExp = new RegExp(this.searchTitle, 'i')
-            this.filtered = this.goods.filter(product => regExp.test(product.product_name))
+            this.filtered = this.goods.filter(el => regExp.test(el.product_name));
         }
     },
     mounted(){
@@ -43,8 +41,9 @@ var app1 = new Vue({
                     this.cart.push(el);
                 }
             });
+        this.getjson('catalogData.json').then(data => this.goods = data).then(this.searchArr)
     },
     created() {
-        this.getjson('catalogData.json').then(()=> this.searchArr())
+
     }
 })

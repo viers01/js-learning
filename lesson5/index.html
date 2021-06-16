@@ -12,36 +12,19 @@
 
 <body>
     <div id="app">
-        <div class="cart" v-if="show">
-            <p v-if="cart.length === 0">Ваша корзина пуста</p>
-            <div class="cart-box" v-else>
-                <div class="card mb-3" style="max-width: 540px;" v-for="product of this.cart" :key="product.product_name">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="http://placehold.it/50x100" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">{{product.product_name}}</h5>
-                                <p class="card-text">{{product.quantity}} шт.</p>
-                                <p class="card-text"><small class="text-muted">Цена:{{product.price * product.quantity}}</small></p>
-                                <button type="button" class="btn btn-primary cart-btn" @click="removeProduct(product)">X</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <cart
+         :visibility="show"
+         :cart="cart"
+         @remove = 'removeProduct'
+        >
+        </cart>
         <nav class="navbar navbar-expand-lg navbar-light bg-light position-relative">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Интернет-магазин</a>
-                <form action="#" class="search-form" @submit.prevent="searchArr">
-                    <input type="text" class="search-field" v-model="searchTitle">
-                    <button class="btn-search" type="submit">
-                        найти
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+                <filter-el
+                        @searcharr = "searchArr"
+                        @search = 'searchTitle'
+                ></filter-el>
                 <button type="button" class="btn btn-primary cart-btn" @click="show = !show">Корзина</button>
             </div>
         </nav>
@@ -57,8 +40,9 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script src="script.js"></script>
     <script src="components.js"></script>
+    <script src="script.js"></script>
+
 
 
 </body>
