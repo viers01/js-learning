@@ -14,20 +14,34 @@ var app1 = new Vue({
     },
     methods:{
         addProduct(Product){
-            let find = this.cart.find(el => el.id_product === Product.id_product);
-                if (find){
-                    find.quantity++
+            this.getjson('addToBasket.json').then((data)=>{
+                if (data.result === 1){
+                    let find = this.cart.find(el => el.id_product === Product.id_product);
+                    if (find){
+                        find.quantity++
+                    } else {
+                        let newItem = Object.assign({quantity:1}, Product);
+                        this.cart.push(newItem)
+                    }
                 } else {
-                    let newItem = Object.assign({quantity:1}, Product);
-                    this.cart.push(newItem)
+                    alert('ошибка')
                 }
+            })
+
         },
         removeProduct(cartInItem){
-            if (cartInItem.quantity>1){
-                cartInItem.quantity--
-            } else {
-                this.cart.splice(this.cart.indexOf(cartInItem),1)
-            }
+            this.getjson('deleteFromBasket.json').then((data)=>{
+                if (data.result === 1){
+                    if (cartInItem.quantity>1){
+                        cartInItem.quantity--
+                    } else {
+                        this.cart.splice(this.cart.indexOf(cartInItem),1)
+                    }
+                } else {
+                    alert('error')
+                }
+            })
+
         },
         searchArr() {
             let regExp = new RegExp(this.searchTitle, 'i')
