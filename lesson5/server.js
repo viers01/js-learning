@@ -18,33 +18,32 @@ myapp.get('/api/products', (req,res)=>{
     })
 })
 
-//API корзины
-myapp.get('/api/cart', (req, res)=>{
-    fs.readFile('./server/database/products.json', 'utf-8', ((err, data) => {
-        if (err){
-            res.send(JSON.stringify({result:0, text: err}))
+//api cart
+myapp.get('/api/cart', (req, res) => {
+    fs.readFile('./server/database/userCart.json', 'utf-8', (err, data) => {
+        if (err) {
+            res.send({result: 0, text: err});
         } else {
-            res.send(data)
+            res.send(data);
         }
-    }))
-})
+    });
+});
+
 
 //API для добавления товара
-myapp.post('/api/cart', (req,res)=>{
+myapp.post('/api/cart/', (req,res)=>{
     fs.readFile('./server/database/userCart.json', 'utf-8', ((err, data) =>{
         if (err){
             res.send({result: 0, text: err});
         } else {
-            //парсим корзину
             const cart = JSON.parse(data);
             //добавляем товар
             cart.contents.push(req.body)
-
             fs.writeFile('./server/database/userCart.json', JSON.stringify(cart), (err)=>{
                 if (err){
-                    res.send('{"result: 0"}');
+                    res.send('{"result": 0}');
                 } else {
-                    res.send('{"result: 1"}');
+                    res.send('{"result": 1}');
                 }
             })
         }
@@ -62,10 +61,10 @@ myapp.delete('/api/cart/:id', (req, res) => {
             // ищем товар по id
             const find = cart.contents.find(el => el.id_product === +req.params.id);
             // удаляем товар
-            cart.splice(cart.indexOf(find),1)
+            cart.contents.splice(cart.contents.indexOf(find), 1)
             // пишем обратно
             fs.writeFile('./server/database/userCart.json', JSON.stringify(cart), (err) => {
-                if (err) {
+                if (err){
                     res.send('{"result": 0}');
                 } else {
                     res.send('{"result": 1}');
@@ -98,7 +97,6 @@ myapp.put('/api/cart/:id', (req, res) => {
         }
     });
 });
-
 
 
 const port = 8888;
