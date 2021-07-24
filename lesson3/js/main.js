@@ -77,23 +77,23 @@ class Basket extends List{
   }
 
   changeItem(catalogItem){
-    if (this.getJson('addToBasket.json').then(data => data.result === 1)){
-      let findItem = this.renderProducts.find(item => item.id_product === +catalogItem.dataset.id)
-      if (findItem) {
-        findItem.quantity++
-        this.updateItemInBasket(findItem)
-      } else {
-        let newItem = {
-          id_product: +catalogItem.dataset['id'],
-          price: +catalogItem.dataset['price'],
-          product_name: catalogItem.dataset['name'],
-          quantity: 1
-        }
-        this.goods = [newItem]
-        this.render('.basket', templateBasket)
+      if (this.getJson('addToBasket.json').then(data => data.result === 1)){
+        let findItem = this.renderProducts.find(item => item.id_product === +catalogItem.dataset.id)
+          if (findItem) {
+            findItem.quantity++
+            this.updateItemInBasket(findItem)
+          } else {
+            let newItem = {
+              id_product: +catalogItem.dataset['id'],
+              price: +catalogItem.dataset['price'],
+              product_name: catalogItem.dataset['name'],
+              quantity: 1
+            }
+            this.goods = [newItem]
+            this.render('.basket', templateBasket)
 
-    }
-    }
+        }
+      }
     }
 
     deleteItem(id){
