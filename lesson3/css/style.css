@@ -35,11 +35,8 @@ button{
 }
 .products{
     column-gap: 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);
-    grid-template-rows: 1fr;
+    display: flex;
     padding: 40px 80px;
-    justify-content: space-between;
 }
 p {
     margin: 0 0 5px 0;
@@ -74,4 +71,39 @@ img {
     background-color: transparent;
     border-color: #2f2a2d;
     color: #2f2a2d;
+}
+
+header {
+    position: relative;
+}
+
+.basket{
+    position: absolute;
+    min-height: 200px;
+    background-color: #2f2a2d;
+    border-radius: 5px;
+    right: 80px;
+    top: 150px;
+    padding: 10px;
+
+}
+
+.cart-item {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 5px;
+    background-color: #5c545a;
+
+}
+.del-btn{
+    background-color: #fafafa;
+    padding: 3px 7px;
+    color: #000000;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+.invisible {
+    display: none;
 }
